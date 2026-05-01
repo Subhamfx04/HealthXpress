@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Doctor Consultation System</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root {
+    --primary: #0b5ed7;
+    --sky: #4facfe;
+    --dark: #1c1f26;
+    --accent: #ffc107;
+    --shadow: 0 20px 45px rgba(0,0,0,0.2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Arial;
+}
+
+/* SKY + LIGHT BLACK BACKGROUND */
+body {
+    min-height: 100vh;
+    background: linear-gradient(
+        135deg,
+        #4facfe 0%,     /* sky blue */
+        #1e3c72 50%,    /* deep blue */
+        #1c1f26 100%    /* light black */
+    );
+    color: #fff;
+}
+
+/* ================= PAGE 1 ================= */
+#selectionPage {
+    min-height: 100vh;
+    padding: 80px 20px;
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 40px;
+    font-size: 34px;
+    font-weight: 700;
+}
+
+/* Doctor Cards */
+.doctor-box {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.doctor-card {
+    background: rgba(255,255,255,0.95);
+    color: #000;
+    width: 280px;
+    padding: 35px;
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: 0.35s ease;
+}
+
+.doctor-card:hover {
+    transform: translateY(-10px) scale(1.03);
+}
+
+.doctor-card h3 {
+    color: var(--primary);
+    margin-bottom: 10px;
+}
+
+/* ================= PAGE 2 ================= */
+#aiDoctorPage {
+    display: none;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* AI Box */
+.ai-box {
+    background: rgba(255,255,255,0.97);
+    color: #000;
+    width: 100%;
+    max-width: 420px;
+    padding: 35px 30px;
+    border-radius: 18px;
+    box-shadow: 0 30px 70px rgba(0,0,0,0.3);
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+
+label {
+    margin-top: 15px;
+    display: block;
+    font-weight: 600;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+textarea {
+    resize: none;
+}
+
+.submit-btn {
+    margin-top: 20px;
+    width: 100%;
+    padding: 12px;
+    background: var(--accent);
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+}
+
+.back-btn {
+    margin-top: 12px;
+    width: 100%;
+    padding: 10px;
+    background: #0b5ed7;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+/* Responsive */
+@media(max-width:500px){
+    h2 { font-size: 26px; }
+    .doctor-card { width: 100%; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- PAGE 1 -->
+<div id="selectionPage">
+    <h2>Select Doctor Type</h2>
+
+    <div class="doctor-box">
+        <div class="doctor-card" onclick="selectPhysicalDoctor()">
+            <h3>👨‍⚕️ Physical Doctor</h3>
+            <p>Consult nearby hospital or clinic.</p>
+        </div>
+
+        <div class="doctor-card" onclick="selectAIDoctor()">
+            <h3>🤖 AI Doctor</h3>
+            <p>Get instant AI-based medical guidance.</p>
+        </div>
+    </div>
+</div>
+
+<!-- PAGE 2 -->
+<div id="aiDoctorPage">
+    <div class="ai-box">
+        <h2>AI Doctor Consultation</h2>
+
+        <form id="aiDoctorForm">
+            <label>Disease Name</label>
+            <input type="text" id="disease" required>
+
+            <label>Symptoms</label>
+            <textarea id="symptoms" rows="4" required></textarea>
+
+            <button class="submit-btn">Submit</button>
+        </form>
+
+        <button class="back-btn" onclick="goBack()">Back</button>
+    </div>
+</div>
+
+<script>
+function selectPhysicalDoctor() {
+    window.location.href = "physical-doctor.html";
+}
+
+function selectAIDoctor() {
+    document.getElementById("selectionPage").style.display = "none";
+    document.getElementById("aiDoctorPage").style.display = "flex";
+}
+
+function goBack() {
+    document.getElementById("aiDoctorPage").style.display = "none";
+    document.getElementById("selectionPage").style.display = "block";
+}
+
+document.getElementById("aiDoctorForm").onsubmit = function(e){
+    e.preventDefault();
+
+    const disease = document.getElementById("disease").value;
+    const symptoms = document.getElementById("symptoms").value;
+
+    console.log("AI Doctor Data:");
+    console.log("Disease:", disease);
+    console.log("Symptoms:", symptoms);
+
+    alert("Details submitted to AI Doctor");
+};
+</script>
+
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Government Healthcare Schemes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .schemes-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .scheme-card {
+            background: white;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .scheme-card h3 {
+            color: #0b5ed7;
+            margin-top: 0;
+        }
+        .scheme-card p {
+            color: #555;
+            line-height: 1.6;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+            color: #666;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav class="navbar">
+        <div class="logo">HealthCare+</div>
+        <ul class="nav-links">
+            <li><a href="project.html">Home</a></li>
+            <li><a href="schemes.html">Govt Schemes</a></li>
+            <li><a href="ambulance.html">Ambulance</a></li>
+            <li><a href="camps.html">Medical Camps</a></li>
+            <li><a href="disease.html">Diseases</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="schemes-container">
+    <h1>Government Healthcare Schemes</h1>
+    <p>Information about various government healthcare programs and schemes available for you.</p>
+    
+    <div id="schemes-list" class="loading">Loading schemes...</div>
+</div>
+
+<script src="api-service.js"></script>
+<script>
+    async function loadSchemes() {
+        try {
+            const result = await getSchemes();
+            const schemesList = document.getElementById('schemes-list');
+            
+            if (result.schemes && result.schemes.length > 0) {
+                schemesList.innerHTML = result.schemes.map(scheme => `
+                    <div class="scheme-card">
+                        <h3>${scheme.title}</h3>
+                        <p><strong>Description:</strong> ${scheme.description || 'N/A'}</p>
+                        <p><strong>Eligibility:</strong> ${scheme.eligibility || 'N/A'}</p>
+                        <p><strong>Benefits:</strong> ${scheme.benefits || 'N/A'}</p>
+                    </div>
+                `).join('');
+            } else {
+                schemesList.innerHTML = '<div class="error">No schemes available</div>';
+            }
+        } catch (err) {
+            console.error('Error loading schemes:', err);
+            document.getElementById('schemes-list').innerHTML = '<div class="error">Failed to load schemes. Backend may not be running.</div>';
+        }
+    }
+
+    window.addEventListener('load', loadSchemes);
+</script>
+
+</body>
+</html>

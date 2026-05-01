@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Disease Awareness</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .diseases-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .disease-card {
+            background: white;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid #dc3545;
+        }
+        .disease-card h3 {
+            color: #dc3545;
+            margin-top: 0;
+        }
+        .disease-card p {
+            color: #555;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+            color: #666;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav class="navbar">
+        <div class="logo">HealthCare+</div>
+        <ul class="nav-links">
+            <li><a href="project.html">Home</a></li>
+            <li><a href="schemes.html">Govt Schemes</a></li>
+            <li><a href="ambulance.html">Ambulance</a></li>
+            <li><a href="camps.html">Medical Camps</a></li>
+            <li><a href="disease.html">Diseases</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="diseases-container">
+    <h1>Disease Awareness & Prevention</h1>
+    <p>Learn about common diseases, their symptoms, precautions, and treatment information.</p>
+    
+    <div id="diseases-list" class="loading">Loading diseases...</div>
+</div>
+
+<script src="api-service.js"></script>
+<script>
+    async function loadDiseases() {
+        try {
+            const result = await getDiseases();
+            const diseasesList = document.getElementById('diseases-list');
+            
+            if (result.diseases && result.diseases.length > 0) {
+                diseasesList.innerHTML = result.diseases.map(disease => `
+                    <div class="disease-card">
+                        <h3>🦠 ${disease.name}</h3>
+                        <p><strong>Symptoms:</strong> ${disease.symptoms || 'N/A'}</p>
+                        <p><strong>Precautions:</strong> ${disease.precautions || 'N/A'}</p>
+                        <p><strong>Treatment Info:</strong> ${disease.treatment_info || 'Consult a doctor'}</p>
+                    </div>
+                `).join('');
+            } else {
+                diseasesList.innerHTML = '<div class="error">No diseases available</div>';
+            }
+        } catch (err) {
+            console.error('Error loading diseases:', err);
+            document.getElementById('diseases-list').innerHTML = '<div class="error">Failed to load diseases. Backend may not be running.</div>';
+        }
+    }
+
+    window.addEventListener('load', loadDiseases);
+</script>
+
+</body>
+</html>

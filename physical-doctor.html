@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Physical Doctor Services</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    font-family: Arial;
+    background: #0b5ed7;
+    color: #fff;
+    padding: 20px;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Card Layout */
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* Card */
+.card {
+    background: #fff;
+    color: #000;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.card h3 {
+    color: #0b5ed7;
+}
+
+.type {
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+/* Buttons */
+button {
+    margin-top: 10px;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 20px;
+    background: #ffc107;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #fff;
+    color: #000;
+    padding: 25px;
+    border-radius: 12px;
+    width: 300px;
+}
+
+input, select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Nearby Medical Services</h2>
+
+<div class="container">
+
+    <!-- Govt Hospital -->
+    <div class="card">
+        <h3>🏥 Govt Hospital</h3>
+        <p class="type">Type: Government</p>
+        <p>Free treatment available</p>
+        <p>Location: Nearby District Hospital</p>
+        <button onclick="alert('Visit hospital directly for free service')">
+            View Details
+        </button>
+    </div>
+
+    <!-- Private Hospital 1 -->
+    <div class="card">
+        <h3>🏨 City Care Clinic</h3>
+        <p class="type">Type: Private</p>
+        <p>Doctor Fee: ₹500 per slot</p>
+        <p>Timing: 10 AM - 6 PM</p>
+        <button onclick="openBooking('City Care Clinic', 500)">
+            Book Slot
+        </button>
+    </div>
+
+    <!-- Private Hospital 2 -->
+    <div class="card">
+        <h3>🏨 HealthPlus Hospital</h3>
+        <p class="type">Type: Private</p>
+        <p>Doctor Fee: ₹800 per slot</p>
+        <p>Timing: 9 AM - 8 PM</p>
+        <button onclick="openBooking('HealthPlus Hospital', 800)">
+            Book Slot
+        </button>
+    </div>
+
+</div>
+
+<!-- Booking Modal -->
+<div class="modal" id="bookingModal">
+    <div class="modal-content">
+        <h3>Book Appointment</h3>
+
+        <p id="hospitalName"></p>
+        <p id="price"></p>
+
+        <input type="text" placeholder="Your Name" id="name">
+        
+        <select id="time">
+            <option>10:00 AM</option>
+            <option>12:00 PM</option>
+            <option>2:00 PM</option>
+            <option>4:00 PM</option>
+        </select>
+
+        <button onclick="confirmBooking()">Confirm Booking</button>
+        <button onclick="closeModal()">Cancel</button>
+    </div>
+</div>
+
+<script>
+let selectedHospital = "";
+let selectedPrice = 0;
+
+function openBooking(name, price) {
+    selectedHospital = name;
+    selectedPrice = price;
+
+    document.getElementById("hospitalName").innerText = name;
+    document.getElementById("price").innerText = "Fee: ₹" + price;
+
+    document.getElementById("bookingModal").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("bookingModal").style.display = "none";
+}
+
+function confirmBooking() {
+    const user = document.getElementById("name").value;
+    const time = document.getElementById("time").value;
+
+    console.log("Booking Details:");
+    console.log("Hospital:", selectedHospital);
+    console.log("Price:", selectedPrice);
+    console.log("User:", user);
+    console.log("Time:", time);
+
+    alert("Booking Confirmed for " + selectedHospital);
+
+    closeModal();
+}
+</script>
+
+</body>
+</html>

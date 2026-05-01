@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Doctor</title>
+<style>
+body{
+    font-family: Arial;
+    background:linear-gradient(135deg,#0b5ed7,#198754);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+.box{
+    background:white;
+    padding:30px;
+    border-radius:10px;
+    width:350px;
+}
+input,textarea,button{
+    width:100%;
+    margin-top:10px;
+    padding:8px;
+}
+button{cursor:pointer;}
+</style>
+</head>
+<body>
+
+<div class="box">
+<h3>🤖 AI Doctor</h3>
+
+<form onsubmit="submitData(event)">
+<input type="text" id="disease" placeholder="Disease name" required>
+<textarea id="symptoms" placeholder="Symptoms" required></textarea>
+<button type="submit">Submit</button>
+<button type="button" onclick="goBack()">Back</button>
+</form>
+</div>
+
+<script>
+function submitData(e){
+    e.preventDefault();
+    alert("Data sent to AI Doctor");
+}
+
+function goBack(){
+    window.location.href = "doctor-choice.html";
+}
+</script>
+
+</body>
+</html>

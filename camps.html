@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Medical Camps</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .camps-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+        .camp-card {
+            background: white;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid #198754;
+        }
+        .camp-card h3 {
+            color: #198754;
+            margin-top: 0;
+        }
+        .camp-card p {
+            color: #555;
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+            color: #666;
+        }
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <nav class="navbar">
+        <div class="logo">HealthCare+</div>
+        <ul class="nav-links">
+            <li><a href="project.html">Home</a></li>
+            <li><a href="schemes.html">Govt Schemes</a></li>
+            <li><a href="ambulance.html">Ambulance</a></li>
+            <li><a href="camps.html">Medical Camps</a></li>
+            <li><a href="disease.html">Diseases</a></li>
+        </ul>
+    </nav>
+</header>
+
+<div class="camps-container">
+    <h1>Medical Camps & Health Drives</h1>
+    <p>Information about upcoming free medical camps and vaccination drives in your area.</p>
+    
+    <div id="camps-list" class="loading">Loading camps...</div>
+</div>
+
+<script src="api-service.js"></script>
+<script>
+    async function loadCamps() {
+        try {
+            const result = await getCamps();
+            const campsList = document.getElementById('camps-list');
+            
+            if (result.camps && result.camps.length > 0) {
+                campsList.innerHTML = result.camps.map(camp => `
+                    <div class="camp-card">
+                        <h3>🩺 ${camp.name}</h3>
+                        <p><strong>Date:</strong> ${camp.date || 'TBA'}</p>
+                        <p><strong>Location:</strong> ${camp.location}</p>
+                        <p><strong>Details:</strong> ${camp.description || 'Free health camp'}</p>
+                    </div>
+                `).join('');
+            } else {
+                campsList.innerHTML = '<div class="error">No camps available</div>';
+            }
+        } catch (err) {
+            console.error('Error loading camps:', err);
+            document.getElementById('camps-list').innerHTML = '<div class="error">Failed to load camps. Backend may not be running.</div>';
+        }
+    }
+
+    window.addEventListener('load', loadCamps);
+</script>
+
+</body>
+</html>
