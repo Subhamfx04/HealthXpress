@@ -1,7 +1,10 @@
 // API Configuration and Service Layer
 // ====================================
 
-const API_BASE_URL = 'http://localhost:5000/api';
+// Use environment variable (set via build tool or injected globally)
+const API_BASE_URL = (typeof process !== 'undefined' && process.env.API_BASE_URL) || 
+  window.API_BASE_URL || 
+  (window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : '/api');
 
 // Check if backend is running
 async function checkBackendConnection() {
