@@ -9,7 +9,8 @@ const API_BASE_URL = (typeof process !== 'undefined' && process.env.API_BASE_URL
 // Check if backend is running
 async function checkBackendConnection() {
   try {
-    const response = await fetch('http://localhost:5000/health');
+    const healthUrl = window.location.hostname === 'localhost' ? 'http://localhost:5000/health' : `${API_BASE_URL.replace('/api', '')}/health`;
+    const response = await fetch(healthUrl);
     return response.ok;
   } catch (err) {
     console.warn('Backend not reachable');
