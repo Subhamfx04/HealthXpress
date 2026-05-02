@@ -4,7 +4,7 @@
   "description": "Simple HealthCare+ backend",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node start.js",
     "dev": "node server.js",
     "init-db": "node init-db.js"
   },
