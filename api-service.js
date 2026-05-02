@@ -210,3 +210,19 @@ async function getConsultations(userId) {
     throw err;
   }
 }
+
+// ==================== AI DOCTOR API ====================
+
+async function getAIDoctorConsultation(disease, symptoms, medicalHistory = '') {
+  try {
+    const response = await fetch(`${API_BASE_URL}/ai-doctor/consult`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ disease, symptoms, medicalHistory })
+    });
+    return await response.json();
+  } catch (err) {
+    console.error('AI Doctor consultation error:', err);
+    throw err;
+  }
+}
