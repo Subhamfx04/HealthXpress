@@ -1,16 +1,18 @@
 // API Configuration and Service Layer
 // ====================================
 
-// Use environment variable (set via build tool or injected globally)
-const API_BASE_URL = (typeof process !== 'undefined' && process.env.API_BASE_URL) || 
-  window.API_BASE_URL || 
-  (window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : '/api');
+// Determine API base URL based on environment
+const API_BASE_URL = window.location.hostname === 'localhost'
+  ? 'http://localhost:5000/api'
+  : 'https://healthxpress.onrender.com/api';
 
 // Check if backend is running
 async function checkBackendConnection() {
   try {
-    const healthUrl = window.location.hostname === 'localhost' ? 'http://localhost:5000/health' : `${API_BASE_URL.replace('/api', '')}/health`;
-    const response = await fetch(healthUrl);
+    const baseUrl = window.location.hostname === 'localhost'
+      ? 'http://localhost:5000'
+      : 'https://healthxpress.onrender.com';
+    const response = await fetch(`${baseUrl}/health`);
     return response.ok;
   } catch (err) {
     console.warn('Backend not reachable');
